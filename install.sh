@@ -29,7 +29,7 @@ done
 # Files that make up a theme directory (everything else in the repo is tooling).
 THEME_FILES=(
   colors.toml btop.theme icons.theme keyboard.rgb hyprland.lua neovim.lua
-  unlock.png preview.png preview-unlock.png light.mode
+  unlock.png preview.png preview-unlock.png fastfetch.png light.mode
   shell.bar.toml shell.menu.toml shell.launcher.toml shell.notifications.toml
   shell.popups.toml shell.lock.toml
 )
@@ -64,8 +64,15 @@ if ((EXTRAS)); then
   for f in "$config/fastfetch/config.jsonc" "$config/starship.toml"; do
     [[ -f $f && ! -f $f.pre-evangelion ]] && cp "$f" "$f.pre-evangelion" && echo "  backup: $f.pre-evangelion"
   done
-  cp "$SRC/extras/fastfetch/nerv.txt" "$SRC/extras/fastfetch/config.jsonc" "$config/fastfetch/"
+  cp "$SRC/extras/fastfetch/evangelion.template.jsonc" "$config/fastfetch/"
   cp "$SRC/extras/starship/starship.toml" "$config/starship.toml"
+
+  # The portrait follows every theme switch through Omarchy's theme-set hook.
+  hooks="$config/omarchy/hooks/theme-set.d"
+  mkdir -p "$hooks"
+  cp "$SRC/extras/fastfetch/evangelion-fastfetch" "$hooks/evangelion-fastfetch"
+  chmod +x "$hooks/evangelion-fastfetch"
+  bash "$hooks/evangelion-fastfetch" "${SET_THEME:-}"
   echo "  ✓ fastfetch + starship"
 fi
 
