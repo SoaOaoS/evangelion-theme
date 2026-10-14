@@ -1,0 +1,9 @@
+# NERV alert card: gradient border with a thick left edge.
+background        = "#0e0607"
+background-alpha  = 0.96
+text              = "#ecdcc6"
+border            = "rgba(ea3048ee) rgba(ecdcc6ee) 90deg"
+border-alpha      = 1.0
+border-width      = 2
+border-width-left = 6
+countdown         = "#ea3048"

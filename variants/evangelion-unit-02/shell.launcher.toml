@@ -1,0 +1,14 @@
+# Launcher: MAGI terminal rows, selected row marked by a thick bar.
+background                = "#1a0c10"
+background-alpha          = 0.96
+text                      = "#f2e4d4"
+border                    = "rgba(ef2e40ee) rgba(ff8c2aee) 45deg"
+border-alpha              = 1.0
+scrim                     = "#0b0507"
+scrim-alpha               = 0.55
+selected-background       = "#ffc93c"
+selected-background-alpha = 0.12
+selected-text             = "#ffc93c"
+selected-border           = "#ffc93c"
+selected-border-alpha     = 1.0
+selected-border-width     = "0 0 0 4"

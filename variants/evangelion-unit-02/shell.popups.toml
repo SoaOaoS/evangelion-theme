@@ -1,0 +1,7 @@
+# Bar flyouts, dropdowns and OSD.
+background       = "#1a0c10"
+background-alpha = 0.98
+text             = "#f2e4d4"
+border           = "rgba(ef2e40ee) rgba(ff8c2aee) 45deg"
+border-alpha     = 1.0
+border-width     = 2

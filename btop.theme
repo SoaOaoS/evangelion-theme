@@ -1,73 +1,44 @@
-# Evangelion — btop theme (MAGI system readout)
+# Evangelion — Unit-01 — btop theme (MAGI system readout)
 
-# Main background, empty for terminal default, need to be empty if you want transparent background
 theme[main_bg]=""
-
-# Main text color
 theme[main_fg]="#e8ddc7"
-
-# Title color for boxes
 theme[title]="#ff8a1e"
-
-# Highlight color for keyboard shortcuts
 theme[hi_fg]="#8fd14f"
-
-# Background color of selected item in processes box
 theme[selected_bg]="#3a2a5e"
-
-# Foreground color of selected item in processes box
 theme[selected_fg]="#f7efdc"
-
-# Color of inactive/disabled text
-theme[inactive_fg]="#5b4a7d"
-
-# Color of text appearing on top of graphs, i.e uptime and current network graph scaling
+theme[inactive_fg]="#6c5a92"
 theme[graph_text]="#cdc2dc"
-
-# Misc colors for processes box including mini cpu graphs, details memory graph and details status text
 theme[proc_misc]="#4fc6c4"
-
-# Box outline and divider line color
 theme[cpu_box]="#9b6ad6"
 theme[mem_box]="#9b6ad6"
 theme[net_box]="#9b6ad6"
 theme[proc_box]="#9b6ad6"
 theme[div_line]="#3a2a5e"
 
-# Gradient for all meters and graphs
 theme[temp_start]="#8fd14f"
 theme[temp_mid]="#f2c12e"
-theme[temp_end]="#e5364a"
-
+theme[temp_end]="#ec4053"
 theme[cpu_start]="#8fd14f"
 theme[cpu_mid]="#f2c12e"
-theme[cpu_end]="#ff8a1e"
-
+theme[cpu_end]="#ec4053"
+theme[process_start]="#8fd14f"
+theme[process_mid]="#f2c12e"
+theme[process_end]="#ec4053"
 theme[free_start]="#3a2a5e"
 theme[free_mid]="#9b6ad6"
 theme[free_end]="#c093f5"
-
-theme[cached_start]="#2c5f6e"
+theme[cached_start]="#2b5861"
 theme[cached_mid]="#4fc6c4"
 theme[cached_end]="#7ee6e1"
-
-theme[available_start]="#4a6b28"
+theme[available_start]="#455c32"
 theme[available_mid]="#8fd14f"
 theme[available_end]="#b2ec74"
-
 theme[used_start]="#ff8a1e"
-theme[used_mid]="#e5364a"
+theme[used_mid]="#ec4053"
 theme[used_end]="#ff5a69"
-
 theme[download_start]="#5a7fd8"
 theme[download_mid]="#9b6ad6"
 theme[download_end]="#c093f5"
-
 theme[upload_start]="#8fd14f"
 theme[upload_mid]="#f2c12e"
 theme[upload_end]="#ff8a1e"
-
-# Process box colors (btop >= 1.4)
-theme[process_start]="#8fd14f"
-theme[process_mid]="#f2c12e"
-theme[process_end]="#e5364a"
