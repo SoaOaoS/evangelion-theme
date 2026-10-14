@@ -1,0 +1,12 @@
+# Entry plug lock: purple at rest, Unit-01 green while syncing, red on failure.
+background       = "#08060e"
+background-alpha = 0.85
+text             = "#f7efdc"
+placeholder      = "#7a6a98"
+text-error       = "#e5364a"
+border           = "#9b6ad6"
+border-active    = "rgba(9b6ad6ee) rgba(8fd14fee) 45deg"
+border-error     = "#e5364a"
+border-alpha     = 1.0
+selection        = "#8fd14f"
+selection-alpha  = 0.45
