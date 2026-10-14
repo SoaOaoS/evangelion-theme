@@ -1,0 +1,42 @@
+#!/bin/bash
+# Render ~/.config/fastfetch/config.jsonc from the Evangelion template.
+#
+#   evangelion-fastfetch [THEME]
+#
+# Installed as an Omarchy theme-set hook, so the portrait follows every theme
+# switch. The logo is the theme's fastfetch.png, drawn with the image protocol
+# of the default terminal: sixel for foot, Kitty graphics for Kitty and
+# Ghostty. Alacritty has no image protocol and themes without a portrait get
+# Omarchy's own text logo. Set EVANGELION_TERMINAL to override the detection.
+
+set -euo pipefail
+
+config_dir="${XDG_CONFIG_HOME:-$HOME/.config}/fastfetch"
+template="$config_dir/evangelion.template.jsonc"
+[[ -f $template ]] || exit 0
+
+theme="${1:-$(cat "$HOME/.local/state/omarchy/current/theme.name" 2>/dev/null || true)}"
+
+# A path unique to each theme, so fastfetch's image cache never serves the
+# previous theme's portrait.
+image=""
+for dir in "$HOME/.config/omarchy/themes/$theme" "${OMARCHY_PATH:-$HOME/.local/share/omarchy}/themes/$theme"; do
+  [[ -n $theme && -f $dir/fastfetch.png ]] && image="$dir/fastfetch.png" && break
+done
+
+terminal="${EVANGELION_TERMINAL:-$(omarchy-default-terminal 2>/dev/null || true)}"
+case "$terminal" in
+  foot) type=sixel ;;
+  kitty | ghostty) type=kitty-direct ;;
+  *) type="" ;;
+esac
+
+if [[ -n $type && -n $image ]]; then
+  logo="{ \"type\": \"$type\", \"source\": \"$image\", \"width\": 42, \"padding\": { \"top\": 1, \"left\": 2, \"right\": 4 } }"
+else
+  logo='{ "type": "file", "source": "~/.config/omarchy/branding/about.txt", "color": { "1": "magenta" }, "padding": { "top": 2, "left": 2, "right": 6 } }'
+fi
+
+tmp=$(mktemp "$config_dir/.config.jsonc.XXXXXX")
+LOGO="$logo" awk '{ sub(/"@LOGO@"/, ENVIRON["LOGO"]); print }' "$template" >"$tmp"
+mv "$tmp" "$config_dir/config.jsonc"

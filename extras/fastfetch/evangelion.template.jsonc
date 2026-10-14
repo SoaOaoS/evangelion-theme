@@ -1,0 +1,133 @@
+// Evangelion fastfetch: a MAGI status report.
+// Template for `evangelion-fastfetch`, which replaces the logo placeholder with the active theme's
+// portrait (sixel in foot, Kitty graphics in Kitty/Ghostty, text elsewhere) and
+// writes the result to ~/.config/fastfetch/config.jsonc.
+{
+  "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
+  "logo": "@LOGO@",
+  "display": {
+    "separator": "",
+    "disableLinewrap": true,
+    "key": {
+      "width": 18
+    },
+    "color": {
+      "output": "default"
+    }
+  },
+  "modules": [
+    "break",
+    {
+      "type": "custom",
+      "format": "{#1;35}NERV{#0;90}  ─  {#37}MAGI SYSTEM {#90}// {#37}STATUS REPORT"
+    },
+    {
+      "type": "custom",
+      "format": "{#3;90}GOD'S IN HIS HEAVEN. ALL'S RIGHT WITH THE WORLD."
+    },
+    "break",
+    {
+      "type": "custom",
+      "format": "{#90}┌─ {#1;35}01{#0;35} · PILOT {#90}─────────────────────────────────────"
+    },
+    {
+      "type": "title",
+      "key": "{#90}│ {#35}󰀄  PILOT",
+      "format": "{user-name}{#90}@{#0}{host-name}"
+    },
+    {
+      "type": "host",
+      "key": "{#90}│ {#35}󰌢  UNIT"
+    },
+    {
+      "type": "os",
+      "key": "{#90}│ {#35}󰣇  OS"
+    },
+    {
+      "type": "kernel",
+      "key": "{#90}│ {#35}  CORE",
+      "format": "{release}"
+    },
+    {
+      "type": "uptime",
+      "key": "{#90}│ {#35}󱑂  SYNC TIME"
+    },
+    {
+      "type": "custom",
+      "format": "{#90}└──────────────────────────────────────────────────"
+    },
+    "break",
+    {
+      "type": "custom",
+      "format": "{#90}┌─ {#1;32}02{#0;32} · ENTRY PLUG {#90}────────────────────────────────"
+    },
+    {
+      "type": "wm",
+      "key": "{#90}│ {#32}󰕮  COMMAND"
+    },
+    {
+      "type": "terminal",
+      "key": "{#90}│ {#32}󰆍  TERMINAL"
+    },
+    {
+      "type": "shell",
+      "key": "{#90}│ {#32}󱆃  SHELL"
+    },
+    {
+      "type": "terminalfont",
+      "key": "{#90}│ {#32}󰊄  FONT"
+    },
+    {
+      "type": "packages",
+      "key": "{#90}│ {#32}󰏖  ARMAMENT"
+    },
+    {
+      "type": "command",
+      "key": "{#90}│ {#32}󰸌  THEME",
+      "text": "t=$(omarchy-theme-current 2>/dev/null || echo Unknown); printf '%s  \\e[35m●\\e[32m●\\e[33m●\\e[31m●\\e[36m●\\e[34m●\\e[0m' \"$t\""
+    },
+    {
+      "type": "custom",
+      "format": "{#90}└──────────────────────────────────────────────────"
+    },
+    "break",
+    {
+      "type": "custom",
+      "format": "{#90}┌─ {#1;33}03{#0;33} · S² ENGINE {#90}─────────────────────────────────"
+    },
+    {
+      "type": "cpu",
+      "key": "{#90}│ {#33}󰻠  S² ENGINE",
+      "showPeCoreCount": true
+    },
+    {
+      "type": "gpu",
+      "key": "{#90}│ {#33}󰢮  MAGI",
+      "detectionMethod": "pci",
+      "format": "{name}"
+    },
+    {
+      "type": "memory",
+      "key": "{#90}│ {#33}󰍛  LCL"
+    },
+    {
+      "type": "disk",
+      "key": "{#90}│ {#33}󰋊  DOGMA",
+      "folders": "/"
+    },
+    {
+      "type": "battery",
+      "key": "{#90}│ {#33}󰁹  UMBILICAL"
+    },
+    {
+      "type": "custom",
+      "format": "{#90}└──────────────────────────────────────────────────"
+    },
+    "break",
+    {
+      "type": "colors",
+      "symbol": "circle",
+      "paddingLeft": 2
+    }
+  ]
+}

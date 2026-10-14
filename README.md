@@ -4,7 +4,7 @@
 
 Une famille de **4 thèmes** pour [Omarchy 4 « Quattro »](https://github.com/basecamp/omarchy) dans
 l'esprit de **Neon Genesis Evangelion** et de l'anime rétro des années 90 : 55 fonds d'écran,
-8 intros vidéo, un colorscheme Neovim, un fastfetch MAGI, un prompt starship et un halo
+8 intros vidéo, un colorscheme Neovim, un fastfetch MAGI avec portrait, un prompt starship et un halo
 « A.T. Field » autour de la fenêtre active.
 
 | Thème | Ambiance |
@@ -104,6 +104,7 @@ Thème clair (`mode = "light"`). 12 fonds d'écran, intros « ACTIVATION / UNIT-
 | Icônes | `icons.theme` | Yaru-purple / Yaru-red / Yaru-blue |
 | Clavier RGB | `keyboard.rgb` | Asus ROG / Framework 16 |
 | Neovim | `colors/`, `lua/evangelion/` | Colorscheme complet (Treesitter, LSP, Telescope, Snacks, Neo-tree, Blink, lualine…) |
+| fastfetch | `fastfetch.png` | Portrait de l'Eva du thème, cadre en dégradé (voir Extras) |
 | Intros | `backgrounds/intros/*.mp4` | Vidéos de 6 s jouées à la connexion et au changement de thème |
 
 ### Neovim
@@ -121,12 +122,47 @@ Pour lualine : `theme = "evangelion"`.
 
 ### Extras
 
-- `extras/fastfetch/` : logo NERV en ASCII, rapport « MAGI SYSTEM » (PILOT, UNIT, S² ENGINE,
-  LCL, TERMINAL DOGMA, UMBILICAL…).
+- `extras/fastfetch/` : rapport « MAGI SYSTEM » en trois sections (PILOT, ENTRY PLUG,
+  S² ENGINE), icônes Nerd Font, clés alignées, et **le portrait de l'Eva du thème actif** en
+  vraie image. Voir ci-dessous.
 - `extras/starship/starship.toml` : prompt « entry plug », `SYNC ❯` en vert, `PATTERN BLUE ❯`
   en rouge en cas d'erreur.
 
 Les deux utilisent les couleurs ANSI du terminal et suivent donc la variante active.
+
+#### fastfetch
+
+![fastfetch Unit-01](docs/fastfetch-evangelion.png)
+
+| Thème | Portrait |
+|-------|----------|
+| `evangelion` | EVA-01 · 初号機 |
+| `evangelion-unit-02` | EVA-02 · 弐号機 |
+| `evangelion-rei` | EVA-00 · 零号機 |
+| `evangelion-eoe` | LILITH · 第二使徒 |
+
+Chaque thème contient un `fastfetch.png`. `install.sh --extras` installe le hook
+`~/.config/omarchy/hooks/theme-set.d/evangelion-fastfetch`, qui régénère
+`~/.config/fastfetch/config.jsonc` à chaque changement de thème avec le bon portrait et le bon
+protocole d'image pour ton terminal par défaut :
+
+| Terminal | Rendu du logo |
+|----------|---------------|
+| foot (défaut d'Omarchy 4) | Sixel |
+| Ghostty, Kitty | protocole graphique Kitty |
+| Alacritty | logo texte d'Omarchy (Alacritty n'affiche pas d'images) |
+
+Après avoir changé de terminal par défaut, relance
+`~/.config/omarchy/hooks/theme-set.d/evangelion-fastfetch` (ou change de thème). La variable
+`EVANGELION_TERMINAL=foot|kitty|ghostty` force la détection.
+
+<details><summary>Les autres variantes</summary>
+
+![fastfetch Unit-02](docs/fastfetch-evangelion-unit-02.png)
+![fastfetch Rei](docs/fastfetch-evangelion-rei.png)
+![fastfetch EoE](docs/fastfetch-evangelion-eoe.png)
+
+</details>
 
 ---
 
@@ -154,6 +190,7 @@ Tout part de **`tools/palettes.py`**, la seule source de vérité. Après une mo
 ```bash
 python3 tools/build.py                 # configs, unlock.png, palettes Neovim
 python3 tools/generate-previews.py     # preview.png, preview-unlock.png, docs/palette-*.png
+python3 tools/generate-fastfetch.py    # fastfetch.png (+ --preview pour docs/fastfetch-*.png)
 ```
 
 Art original et intros (Pillow + ffmpeg) :
