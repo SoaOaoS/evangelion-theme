@@ -1,0 +1,49 @@
+# Evangelion starship prompt — an entry plug readout.
+# Install: cp extras/starship/starship.toml ~/.config/starship.toml
+# Colours are ANSI names, so the prompt follows the active Evangelion variant.
+
+add_newline = true
+format = """
+[▌](bold yellow)[ $directory](bold purple)$git_branch$git_status$python$nodejs$rust$golang$cmd_duration
+[▌](bold yellow)$character"""
+
+[character]
+success_symbol = "[ SYNC ❯](bold green)"
+error_symbol = "[ PATTERN BLUE ❯](bold red)"
+vimcmd_symbol = "[ MAGI ❮](bold yellow)"
+
+[directory]
+format = "[$path]($style)[$read_only]($read_only_style) "
+style = "bold purple"
+truncation_length = 3
+truncation_symbol = "…/"
+read_only = " 封"
+
+[git_branch]
+format = "[on](bright-black) [ $branch]($style) "
+style = "bold green"
+
+[git_status]
+format = "([\\[$all_status$ahead_behind\\]]($style) )"
+style = "bold red"
+
+[cmd_duration]
+min_time = 2000
+format = "[⏱ $duration]($style) "
+style = "yellow"
+
+[python]
+format = "[py $version]($style) "
+style = "cyan"
+
+[nodejs]
+format = "[node $version]($style) "
+style = "green"
+
+[rust]
+format = "[rs $version]($style) "
+style = "red"
+
+[golang]
+format = "[go $version]($style) "
+style = "cyan"

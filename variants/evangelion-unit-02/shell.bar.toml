@@ -1,0 +1,8 @@
+# Top bar: flat panel, alerts lit in the theme's warning colour.
+background       = "#1a0c10"
+background-alpha = 1.0
+text             = "#f2e4d4"
+active           = "#ffc93c"
+scale-with-font  = true
+size-horizontal  = 28
+size-vertical    = 30

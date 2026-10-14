@@ -1,4 +1,4 @@
-# Menus read like a MAGI terminal: selected row gets a thick orange left bar.
+# Menu: MAGI terminal rows, selected row marked by a thick bar.
 background                = "#130e1f"
 background-alpha          = 1.0
 text                      = "#e8ddc7"

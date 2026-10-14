@@ -1,4 +1,4 @@
-# NERV alert card: Unit-01 gradient border with a thick left edge, orange countdown.
+# NERV alert card: gradient border with a thick left edge.
 background        = "#130e1f"
 background-alpha  = 0.96
 text              = "#e8ddc7"

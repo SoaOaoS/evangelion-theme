@@ -1,0 +1,12 @@
+# Entry plug lock: idle border, sync gradient while typing, red on failure.
+background       = "#050202"
+background-alpha = 0.85
+text             = "#fbf0e0"
+placeholder      = "#8e6a66"
+text-error       = "#ea3048"
+border           = "#ea3048"
+border-active    = "rgba(ea3048ee) rgba(ecdcc6ee) 90deg"
+border-error     = "#ea3048"
+border-alpha     = 1.0
+selection        = "#ea3048"
+selection-alpha  = 0.45

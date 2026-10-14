@@ -1,0 +1,14 @@
+# Menu: MAGI terminal rows, selected row marked by a thick bar.
+background                = "#0e0607"
+background-alpha          = 1.0
+text                      = "#ecdcc6"
+border                    = "rgba(ea3048ee) rgba(ecdcc6ee) 90deg"
+border-alpha              = 1.0
+scrim                     = "#050202"
+scrim-alpha               = 0.55
+selected-background       = "#ea3048"
+selected-background-alpha = 0.12
+selected-text             = "#ea3048"
+selected-border           = "#ea3048"
+selected-border-alpha     = 1.0
+selected-border-width     = "0 0 0 4"
