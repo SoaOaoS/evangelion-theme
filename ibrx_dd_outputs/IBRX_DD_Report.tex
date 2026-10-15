@@ -1,0 +1,424 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[french]{babel}
+\usepackage{lmodern}
+\usepackage[margin=2.1cm,top=2.4cm,bottom=2.3cm,headheight=20pt]{geometry}
+\usepackage[table]{xcolor}
+\usepackage{graphicx,amsmath,amssymb,booktabs,array,tabularx,enumitem,fancyhdr,tikz,float,caption,multirow}
+\usepackage[most]{tcolorbox}
+\usepackage[hidelinks]{hyperref}
+\usetikzlibrary{positioning}
+\graphicspath{{figures/}}
+\input{figures/values.tex}
+
+% ---------------------------------------------------------------- palette
+\definecolor{navy}{HTML}{1B2A4A}\definecolor{dkblue}{HTML}{2C5F8A}
+\definecolor{accent}{HTML}{E8833A}\definecolor{green}{HTML}{2E7D32}
+\definecolor{red}{HTML}{C62828}\definecolor{purple}{HTML}{6A1B9A}
+\definecolor{teal}{HTML}{00796B}\definecolor{gold}{HTML}{F9A825}
+\definecolor{rowgray}{HTML}{EEF2F7}
+
+\hypersetup{colorlinks=true,linkcolor=dkblue,urlcolor=dkblue,citecolor=dkblue}
+\captionsetup{font=small,labelfont={bf,color=navy},justification=justified}
+\setlist{itemsep=1pt,topsep=3pt}
+
+% ---------------------------------------------------------------- boxes
+\newtcolorbox{keybox}[1][Point cl\'e]{enhanced,colback=dkblue!6,colframe=dkblue,fonttitle=\bfseries,title=#1,arc=2pt,boxrule=0.8pt,left=6pt,right=6pt}
+\newtcolorbox{bullbox}[1][Arguments haussiers]{enhanced,colback=green!6,colframe=green,fonttitle=\bfseries,title=#1,arc=2pt,boxrule=0.8pt}
+\newtcolorbox{riskbox}[1][Risques]{enhanced,colback=red!5,colframe=red,fonttitle=\bfseries,title=#1,arc=2pt,boxrule=0.8pt}
+\newtcolorbox{graybox}[1][Donn\'ees techniques]{enhanced,colback=gray!7,colframe=gray!70!black,fonttitle=\bfseries,title=#1,arc=2pt,boxrule=0.6pt}
+\newtcolorbox{purplebox}[1][\`A retenir]{enhanced,colback=purple!5,colframe=purple,fonttitle=\bfseries,title=#1,arc=2pt,boxrule=0.8pt}
+
+% ---------------------------------------------------------------- tables
+\newcommand{\thead}[1]{\textcolor{white}{\textbf{#1}}}
+\newcommand{\navyrow}{\rowcolor{navy}}
+\newenvironment{ztable}[1]{\rowcolors{2}{rowgray}{white}\tabularx{\linewidth}{#1}}{\endtabularx}
+
+% ---------------------------------------------------------------- headers
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\small\textcolor{navy}{\textbf{ImmunityBio, Inc.\ (NASDAQ : IBRX)}} --- Due diligence}
+\fancyhead[R]{\small\textcolor{navy}{15 octobre 2026}}
+\fancyfoot[C]{\small\thepage}
+\fancyfoot[R]{\scriptsize\textcolor{gray}{Cours de r\'ef\'erence : \$\mPrice{} (14/10/2026)}}
+\renewcommand{\headrulewidth}{0.6pt}
+\renewcommand{\headrule}{\hbox to\headwidth{\color{accent}\leaders\hrule height \headrulewidth\hfill}}
+
+\newcommand{\fig}[3][0.95]{\begin{figure}[H]\centering\includegraphics[width=#1\linewidth]{#2}\caption{#3}\end{figure}}
+
+\begin{document}
+% ================================================================ TITLE
+\begin{titlepage}
+\thispagestyle{empty}
+\begin{tikzpicture}[remember picture,overlay]
+\fill[navy] (current page.south west) rectangle (current page.north east);
+\fill[accent] ([yshift=-7.2cm]current page.north west) rectangle ([yshift=-7.35cm]current page.north east);
+\node[anchor=north west,text=white,font=\sffamily\small] at ([xshift=2cm,yshift=-2.2cm]current page.north west)
+  {RAPPORT DE DUE DILIGENCE \textbullet{} BIOTECH COMMERCIALE \textbullet{} IMMUNO-ONCOLOGIE};
+\node[anchor=north west,text=white,font=\sffamily\bfseries\fontsize{38}{44}\selectfont] at ([xshift=2cm,yshift=-3.2cm]current page.north west)
+  {ImmunityBio};
+\node[anchor=north west,text=white!80,font=\sffamily\Large] at ([xshift=2cm,yshift=-5.0cm]current page.north west)
+  {NASDAQ : IBRX \quad|\quad ANKTIVA\textsuperscript{\textregistered} (nogapendekin alfa inbakicept)};
+\node[anchor=north west,text=accent,font=\sffamily\bfseries\Large,text width=17cm] at ([xshift=2cm,yshift=-8.2cm]current page.north west)
+  {Un vrai produit, une vraie croissance --- et un cours qui escompte d\'ej\`a le sc\'enario haussier};
+\node[anchor=north west,text=white,font=\sffamily\normalsize,text width=16.5cm] at ([xshift=2cm,yshift=-10.4cm]current page.north west)
+  {Analyse fondamentale, clinique et quantitative : rNPV par segment, analyse bay\'esienne de QUILT-2.005,
+   sc\'enarios probabilis\'es, M\&A et matrice des risques. Mod\`ele Python (21 figures) joint.};
+\node[anchor=north west,text=white!70,font=\sffamily\small] at ([xshift=2cm,yshift=-12.6cm]current page.north west)
+  {Date : 15 octobre 2026 \quad\textbullet\quad Donn\'ees de march\'e au 14/10/2026};
+% bandeau metrics
+\node[anchor=south,inner sep=0pt] at ([yshift=2.2cm]current page.south) {
+\begin{tikzpicture}
+\fill[white,rounded corners=4pt] (0,0) rectangle (17,3.3);
+\fill[accent,rounded corners=4pt] (0,3.0) rectangle (17,3.3);
+\foreach \x/\v/\l in {1.7/{\$\mPrice}/Cours, 5.1/{\$\mMcap\,Md}/Capitalisation, 8.5/{\$\mCashQtwo\,M}/{Tr\'esorerie (30/06)},
+                      11.9/{\$\mEVW}/Valeur pond\'er\'ee, 15.3/{\mUpside\,\%}/Potentiel}{
+  \node[font=\sffamily\bfseries\Large,text=navy] at (\x,1.95) {\v};
+  \node[font=\sffamily\scriptsize,text=gray] at (\x,0.95) {\l};}
+\foreach \x in {3.4,6.8,10.2,13.6}{\draw[gray!40] (\x,0.75)--(\x,2.6);}
+\node[font=\sffamily\scriptsize,text=navy] at (8.5,0.35) {Ventes nettes T2-26 : \$50,7\,M (+92\,\% a/a) \quad|\quad VE/ventes 2026E : \mEVsales x \quad|\quad Recommandation : NEUTRE / SOUS-POND\'ERER};
+\end{tikzpicture}};
+\end{tikzpicture}
+\end{titlepage}
+
+\tableofcontents
+\newpage
+
+% ================================================================ 1. EXEC SUMMARY
+\section{Executive Summary}
+
+\begin{keybox}[Th\`ese d'investissement]
+\begin{itemize}[leftmargin=12pt]
+\item \textbf{Ex\'ecution commerciale r\'eelle} : ANKTIVA a g\'en\'er\'e \$113\,M de ventes nettes en 2025 (+700\,\%) et \$94,8\,M au S1-2026 (+121\,\%), avec 8 trimestres cons\'ecutifs de croissance s\'equentielle.
+\item \textbf{D\'erisquage r\'eglementaire majeur le 14/10/2026} : la FDA a \'etendu le label au papillaire seul BCG-r\'efractaire, 12 semaines avant le PDUFA (6/1/2027), sans essai randomis\'e suppl\'ementaire.
+\item \textbf{Prochain binaire} : QUILT-2.005 (BCG-na\"if, $n=366$), sBLA attendue fin 2026 ; l'int\'erim (RC maintenue 9 mois 84\,\% vs 52\,\%, $p=0{,}046$) donne $P(\Delta>0)=\mPPos\,\%$ mais une PPoS r\'ealiste de $\approx\mPPoSShr\,\%$.
+\item \textbf{Valorisation exigeante} : VE $\approx$ \$\mEntVal\,Md, soit \mEVsales x les ventes 2026E. Notre rNPV de base ressort \`a \textbf{\$\mVPSBase/action dilu\'ee} ; la valeur pond\'er\'ee des sc\'enarios \`a \textbf{\$\mEVW} (\mUpside\,\%).
+\item \textbf{Le cours implique} un pic de ventes ajust\'e du risque de $\approx$\$6,1\,Md, soit \mImplMult x notre cas central (\$\mRiskPeak\,Md) --- c'est-\`a-dire un succ\`es quasi certain en BCG-na\"if \emph{plus} une validation de la plateforme hors vessie.
+\item \textbf{Verdict} : soci\'et\'e de qualit\'e croissante, action surcot\'ee \`a court terme. Neutre / sous-pond\'erer ; exposition sp\'eculative $\leq$1\,\% uniquement, de pr\'ef\'erence via options apr\`es la lecture QUILT-2.005.
+\end{itemize}
+\end{keybox}
+
+\begin{table}[H]\centering\small
+\caption{Snapshot corporate (sources : 10-Q T2-2026, 8-K du 04/08/2026, cotations Nasdaq)}
+\begin{ztable}{>{\bfseries}X r >{\bfseries}X r}
+\navyrow \thead{Indicateur} & \thead{Valeur} & \thead{Indicateur} & \thead{Valeur}\\
+Cours (14/10/2026) & \$\mPrice & Plus bas / haut 52 sem. & \$\mHiLo\\
+Actions en circulation (31/07) & \mShBasic\,M & Actions dilu\'ees (est.) & \mShFD\,M\\
+Capitalisation (base) & \$\mMcap\,Md & Capitalisation dilu\'ee & \$\mMcapFD\,Md\\
+Tr\'esorerie + titres (30/06) & \$\mCashQtwo\,M & Note conv.\ Nant (principal) & \$480\,M @ \$5,427\\
+Passif RIPA Oberland (31/03) & \$404\,M & Valeur d'entreprise & \$\mEntVal\,Md\\
+Ventes nettes T2-26 & \$50,7\,M (+92\,\%) & Ventes S1-26 & \$94,8\,M (+121\,\%)\\
+Perte op\'erationnelle T2-26 & \$61,7\,M & Perte nette T2-26 (GAAP) & \$230,4\,M\\
+Cash consomm\'e op\'erations S1-26 & \$141,9\,M & Objectif analystes (moy.) & \$12,6--14,2\\
+\end{ztable}
+\end{table}
+
+\fig{fig04_stock_12m}{\textbf{Cours IBRX sur 12 mois et catalyseurs annot\'es.} Trajectoire journali\`ere reconstitu\'ee \`a partir des cl\^otures publi\'ees (mensuelles et ponctuelles : 2,44\,\$ le 21/10/25 ; 1,95\,\$ le 30/12/25 ; 9,28\,\$ le 01/10/26 ; 10,51\,\$ le 09/10/26 ; 9,80\,\$ le 13/10/26 ; 10,32\,\$ le 14/10/26) par pont brownien entre points d'ancrage. Le titre a \'et\'e multipli\'e par $\sim$4 ; l'essentiel du mouvement (+209\,\% en janvier, +60\,\% en f\'evrier) est intervenu sur la publication des ventes 2025 et les autorisations UE/Arabie saoudite. Depuis mars, le titre consolide entre 7 et 10\,\$ malgr\'e la croissance --- signe que le march\'e avait d\'ej\`a int\'egr\'e une large part des bonnes nouvelles.}
+
+% ================================================================ 2. PRODUIT
+\section{Le produit : ANKTIVA, superagoniste IL-15}
+
+\subsection{M\'ecanisme d'action}
+ANKTIVA (N-803) est un complexe de fusion IL-15N72D : IL-15R$\alpha$-Sushi/Fc-IgG1. La mutation N72D augmente l'affinit\'e pour le r\'ecepteur IL-2/15R$\beta\gamma$ ; la pr\'e-association au domaine sushi de l'IL-15R$\alpha$ reproduit la \emph{trans-pr\'esentation} physiologique et le fragment Fc allonge la demi-vie. Contrairement \`a l'IL-2, la mol\'ecule ne lie pas CD25 et n'expanse donc pas les lymphocytes T r\'egulateurs. En intrav\'esical, elle est co-administr\'ee avec le BCG : le BCG active l'immunit\'e inn\'ee, ANKTIVA amplifie la prolif\'eration et la cytotoxicit\'e des cellules NK et des lymphocytes T CD8$^+$ m\'emoire.
+
+\fig{fig01_mechanism}{\textbf{M\'ecanisme d'action ANKTIVA + BCG.} Les deux agents sont instill\'es dans la vessie (induction hebdomadaire puis entretien). L'IL-15 superagoniste agit sur les compartiments NK et CD8$^+$ ; le BCG fournit le signal inn\'e. L'efficacit\'e (RC 62--71\,\% en CIS ; DFS \`a 12 mois 58\,\% en papillaire) provient de QUILT-3.032 (cohortes A et B). Point faible structurel : la d\'ependance au BCG, en p\'enurie aux \'Etats-Unis depuis 2019.}
+
+\subsection{Mod\`ele \'economique}
+\fig{fig02_business_model}{\textbf{Flux \'economiques.} ANKTIVA est distribu\'e en \emph{buy-and-bill} aupr\`es des urologues, rembours\'e principalement via Medicare Part B (ASP + 6\,\%). Le financement repose sur deux piliers non dilutifs mais co\^uteux : la note convertible subordonn\'ee de Nant Capital (entit\'e de P.~Soon-Shiong, \$480\,M convertibles \`a \$5,427) et le contrat de \emph{revenue interest} (RIPA) avec Oberland/Infinity, port\'e \`a \$375\,M en mars 2026, qui pr\'el\`eve 5,625--12,5\,\% des ventes mondiales hors Chine. L'approvisionnement en rBCG repose sur un accord exclusif mondial avec le Serum Institute of India (programme d'acc\`es \'elargi).}
+
+\subsection{Statut r\'eglementaire}
+\begin{table}[H]\centering\small
+\caption{Autorisations et soumissions ANKTIVA (au 15/10/2026)}
+\begin{ztable}{l X l}
+\navyrow \thead{Juridiction} & \thead{Indication} & \thead{Statut / date}\\
+FDA (US) & NMIBC BCG-r\'efractaire avec CIS $\pm$ papillaire & Approuv\'e avril 2024\\
+FDA (US) & NMIBC BCG-r\'efractaire \textbf{papillaire seul} (haut grade) & \textbf{Approuv\'e 14/10/2026} (PDUFA 6/1/2027)\\
+MHRA (UK) & NMIBC CIS BCG-r\'efractaire & Approuv\'e juillet 2025\\
+SFDA (Arabie s.) & NMIBC + CPNPC m\'etastatique (avec ICI), acc\'el\'er\'ee & Approuv\'e janvier 2026\\
+Commission europ\'eenne & NMIBC CIS (conditionnelle, 30 pays EEE) & Approuv\'e f\'evrier 2026\\
+\'Emirats arabes unis & NMIBC & Approuv\'e juillet 2026\\
+FDA (US) & NMIBC haut risque \textbf{BCG-na\"if} (QUILT-2.005) & sBLA guid\'ee fin 2026\\
+FDA (US) & CPNPC 2L+ (ResQ201A, confirmatoire) & Recrutement en cours\\
+\end{ztable}
+\end{table}
+
+\begin{graybox}[Contexte : un historique FDA mouvement\'e]
+2023 : lettre de r\'eponse compl\`ete (CRL) li\'ee aux inspections de fabrication tierce partie. Avril 2024 : approbation CIS. Mai 2025 : \emph{refuse-to-file} sur l'indication papillaire, la FDA exigeant un essai randomis\'e car la DFS est un crit\`ere \emph{time-to-event}. Janvier--mars 2026 : discussions, resoumission avec suivi long terme. Octobre 2026 : approbation par extrapolation CIS $\rightarrow$ papillaire, sans nouvel essai. Ce revirement r\'eduit le risque r\'eglementaire per\c{c}u, mais l'historique montre que la relation avec l'agence reste un facteur de volatilit\'e.
+\end{graybox}
+
+\subsection{Donn\'ees cliniques et avantage concurrentiel}
+\fig{fig05_clinical_comparison}{\textbf{Comparaison des donn\'ees pivotales en NMIBC BCG-r\'efractaire avec CIS.} Gauche : taux de r\'eponse compl\`ete avec intervalles de confiance \`a 95\,\% (Jeffreys, $\mathrm{Beta}(x+\tfrac12,\,n-x+\tfrac12)$). Droite : dur\'ee m\'ediane de r\'eponse. Sources : labels FDA et publications pivotales (QUILT-3.032, SunRISe-1 cohorte 2, BOND-003, essai Adstiladrin de phase 3, KEYNOTE-057). Essais monobras non comparables directement (crit\`eres d'inclusion, r\'einduction autoris\'ee pour ANKTIVA). ANKTIVA domine pembrolizumab et nadof\'arag\`ene mais \textbf{n'est pas le leader en taux de RC} : TAR-200 (Inlexzo, J\&J, approuv\'e septembre 2025) affiche 82\,\%, cr\'etostimog\`ene 76\,\%. L'avantage d'ANKTIVA r\'eside dans la durabilit\'e (DoR m\'ediane $>$26 mois), la pr\'eservation v\'esicale et l'absence de dispositif intrav\'esical.}
+
+\fig{fig06_km_papillary}{\textbf{Survie sans maladie en papillaire seul BCG-r\'efractaire (courbes reconstruites).} Mod\`ele de Weibull $S(t)=\exp[-(t/\lambda)^k]$ cal\'e sur la DFS \`a 12 mois publi\'ee (ANKTIVA 58,2\,\%, \emph{J.\ Urol.} ; pembrolizumab KEYNOTE-057 cohorte B 43,5\,\% ; nadof\'arag\`ene 44\,\%), avec $\lambda = 12/(-\ln S_{12})^{1/k}$ et un param\`etre de forme $k\in[0{,}75;0{,}85]$ (risque d\'ecroissant). Les escaliers sont des cohortes simul\'ees de m\^eme taille avec censure administrative uniforme 18--48 mois. Il s'agit d'une illustration, pas de donn\'ees individuelles ; elle montre toutefois que l'\'ecart de $\sim$14 points \`a 12 mois se maintient dans le temps sous des hypoth\`eses raisonnables.}
+
+\begin{bullbox}[Avantages comp\'etitifs d\'efendables]
+\begin{enumerate}[leftmargin=14pt]
+\item \textbf{Durabilit\'e} : 58\,\% des r\'epondeurs CIS en RC \`a $\geq$12 mois ; pr\'eservation v\'esicale $>$80\,\% \`a 36 mois et survie sp\'ecifique 96\,\% en papillaire.
+\item \textbf{Simplicit\'e d'usage} : instillation liquide standard (vs dispositif intrav\'esical TAR-200 ou vecteur viral), compatible avec la pratique des urologues communautaires.
+\item \textbf{Label le plus large} en BCG-r\'efractaire depuis le 14/10/2026 (CIS \emph{et} papillaire seul) --- J\&J doit encore produire l'essai SunRISe-5 pour le papillaire.
+\item \textbf{Optionnalit\'e en amont} : essai randomis\'e pivot d\'ej\`a enti\`erement recrut\'e en BCG-na\"if (le segment le plus large du NMIBC), en concurrence de calendrier avec SunRISe-3 (J\&J) et POTOMAC (AstraZeneca).
+\item \textbf{Protection} : exclusivit\'e biologique de 12 ans (jusqu'\`a $\sim$2036) plus brevets de composition et de proc\'ed\'e.
+\end{enumerate}
+\end{bullbox}
+
+% ================================================================ 3. QUANT
+\section{Analyse quantitative}
+
+\subsection{QUILT-2.005 : lecture bay\'esienne de l'int\'erim}
+QUILT-2.005 randomise ANKTIVA + BCG contre BCG seul chez 366 patients BCG-na\"ifs (cohorte A, recrutement clos en f\'evrier 2026). En mars 2026, l'IDMC a examin\'e une analyse interm\'ediaire sur 183 patients \'evaluables et confirm\'e que la puissance \'etait suffisante sans recrutement additionnel. Les taux de RC maintenue publi\'es sont de 85\,\% vs 57\,\% \`a 6 mois ($p=0{,}054$) et 84\,\% vs 52\,\% \`a 9 mois ($p=0{,}046$).
+
+\begin{graybox}[Reconstruction des effectifs]
+Les valeurs $p$ publi\'ees ne sont compatibles qu'avec de petits effectifs \'evaluables \`a 9 mois. Pour un test de Wald \`a deux proportions,
+\[
+z=\frac{\hat p_A-\hat p_B}{\sqrt{\bar p(1-\bar p)\left(\tfrac1{n_A}+\tfrac1{n_B}\right)}},\qquad \bar p=\frac{x_A+x_B}{n_A+n_B},
+\]
+$z\approx 2{,}0$ ($p=0{,}046$) avec $\hat p_A-\hat p_B=0{,}32$ impose $n\approx 20$ par bras. Nous retenons $x_A/n_A=16/19$ (84,2\,\%) et $x_B/n_B=11/21$ (52,4\,\%). \textbf{L'int\'erim est donc fond\'e sur une quarantaine de patients} : le signal est encourageant, mais fragile.
+\end{graybox}
+
+Avec un a priori uniforme, $p_A\sim\mathrm{Beta}(1+x_A,1+n_A-x_A)$, $p_B\sim\mathrm{Beta}(1+x_B,1+n_B-x_B)$ et $\Delta=p_A-p_B$ est estim\'e par Monte-Carlo (200\,000 tirages).
+
+\fig{fig07_bayes_quilt2005}{\textbf{Posterior bay\'esien de l'int\'erim QUILT-2.005.} Gauche : lois a posteriori des taux de RC maintenue \`a 9 mois. Droite : distribution de $\Delta$. M\'ediane $+\mDMed$ points, IC95\,\% cr\'edible [$+\mDLo$ ; $+\mDHi$] ; $P(\Delta>0)=\mPPos\,\%$, $P(\Delta>15\text{ pts})=\mPFifteen\,\%$. Le \og HR implicite\fg{} est le rapport des risques de perte de r\'eponse $\frac{1-p_A}{1-p_B}$ ($\approx\mHRimp$). La largeur de l'intervalle (de quasi nul \`a +54 points) illustre l'incertitude r\'esiduelle.}
+
+\subsection{Puissance et probabilit\'e de succ\`es (PPoS)}
+La puissance d'un test bilat\'eral \`a $\alpha=5\,\%$ pour deux proportions s'\'ecrit :
+\[
+1-\beta=\Phi\!\left(\frac{|p_A-p_B|-z_{1-\alpha/2}\sqrt{2\bar p(1-\bar p)/n}}{\sqrt{[p_A(1-p_A)+p_B(1-p_B)]/n}}\right).
+\]
+Pour la PPoS, nous simulons 20\,000 essais finaux ($n=120$ \'evaluables par bras pour la RC maintenue, hypoth\`ese) en tirant les vrais taux dans le posterior. Comme les effets d'int\'erim sont syst\'ematiquement surestim\'es (\og winner's curse\fg{}), nous appliquons un r\'etr\'ecissement de 50\,\% de $\Delta$ vers z\'ero : $p_A^{*}=p_B+0{,}5(p_A-p_B)$.
+
+\fig{fig08_power_mc}{\textbf{Puissance et PPoS Monte-Carlo.} Gauche : puissance en fonction de la diff\'erence vraie (base BCG 55\,\%) pour 60, 120 et 183 patients par bras ; avec 120/bras, une diff\'erence de 15 points est d\'etect\'ee avec $\sim$75--80\,\% de puissance. Droite : distribution du $\Delta$ vrai apr\`es r\'etr\'ecissement. PPoS = \mPPoSRaw\,\% avec le posterior brut, \textbf{\mPPoSShr\,\%} apr\`es r\'etr\'ecissement. Nous retenons $P(\text{approbation BCG-na\"if})=60\,\%$ dans le mod\`ele de base (PPoS $\times$ probabilit\'e r\'eglementaire conditionnelle $\approx 0{,}9$, arrondie \`a la hausse compte tenu de la d\'ecision papillaire).}
+
+\begin{purplebox}[Pourquoi l'endpoint compte]
+Le crit\`ere principal de QUILT-2.005 combine RC (CIS) et DFS (papillaire). La FDA a montr\'e en 2025 qu'elle pouvait exiger une analyse \emph{time-to-event} randomis\'ee pour la DFS. Un r\'esultat significatif sur la RC mais ambigu sur la DFS papillaire est le sc\'enario interm\'ediaire le plus probable apr\`es le succ\`es franc.
+\end{purplebox}
+
+\subsection{Sensibilit\'e de la valorisation}
+\fig{fig09_sensitivity}{\textbf{Analyse de sensibilit\'e.} Gauche : tornado de la valeur rNPV par action dilu\'ee (base \$\mVPSBase) ; la variable dominante est le niveau des pics de ventes ($\pm$30\,\%), devant le WACC et la probabilit\'e de succ\`es en BCG-na\"if. Aucune variation isol\'ee raisonnable ne ram\`ene la valeur au cours (\$\mPrice, ligne pointill\'ee). Droite : carte de chaleur valeur/action selon le multiplicateur des pics (axe x) et $P(\text{succ\`es BCG-na\"if})$ (axe y) ; la courbe noire est l'isovaleur \$\mPrice : il faut $\sim$2,0--2,4x nos pics \emph{et} une forte probabilit\'e de succ\`es pour justifier le cours.}
+
+% ================================================================ 4. MARCHE
+\section{March\'e \& concurrence}
+Le cancer de la vessie touche $\sim$85\,000 nouveaux patients par an aux \'Etats-Unis ; $\sim$75\,\% sont des NMIBC, dont environ la moiti\'e \`a haut risque, trait\'es en premi\`ere intention par BCG. Environ 8\,000 patients/an deviennent BCG-r\'efractaires. Le march\'e NMIBC est en pleine \og r\'evolution\fg{} : quatre produits approuv\'es en BCG-r\'efractaire depuis 2020 et trois nouveaux entrants attendus.
+
+\fig{fig10_tam}{\textbf{March\'e adressable NMIBC.} Gauche : march\'e mondial par segment (hypoth\`eses du mod\`ele, TCAC 17--22\,\% par segment, de $\sim$2,1\,Md\$ en 2024 \`a $\sim$9,7\,Md\$ en 2033), port\'e par la substitution du BCG seul et des cystectomies par des immunoth\'erapies intrav\'esicales premium. Droite : entonnoir \'epid\'emiologique US (incidence ACS/SEER ; parts NMIBC et haut risque issues de la litt\'erature urologique). Le segment BCG-na\"if haut risque ($\sim$30\,000 patients/an) est 3--4x plus large que le BCG-r\'efractaire.}
+
+\fig{fig11_comparables}{\textbf{Comparables cot\'es NMIBC.} Gauche : capitalisation boursi\`ere d\'ebut octobre 2026 (IBRX au 14/10 ; CG Oncology $\sim$5,5\,Md\$ au 07/10 ; UroGen $\sim$2,3\,Md\$ en ao\^ut ; enGene $\sim$0,13\,Md\$). Droite : capitalisation rapport\'ee au pic de ventes ajust\'e du risque (Guggenheim, \og The NMIBC Revolution\fg{} : \$1,1\,Md pour ANKTIVA, \$3,0\,Md pour cr\'etostimog\`ene ; estimations internes pour UroGen et enGene). IBRX se paie $\sim$10x ce pic contre $\sim$2x pour CG Oncology, dont le produit affiche pourtant un meilleur taux de RC.}
+
+\begin{table}[H]\centering\small
+\caption{Positionnement concurrentiel en NMIBC BCG-r\'efractaire}
+\begin{ztable}{l l c c X}
+\navyrow \thead{Produit} & \thead{Soci\'et\'e} & \thead{RC CIS} & \thead{DoR m\'ed.} & \thead{Commentaire}\\
+ANKTIVA + BCG & ImmunityBio & 62--71\,\% & 26,6 m & Label CIS + papillaire ; d\'ependance BCG\\
+Inlexzo (TAR-200) & J\&J & 82\,\% & 25,8 m & Dispositif intrav\'esical gemcitabine ; puissance commerciale J\&J\\
+Cr\'etostimog\`ene & CG Oncology & 76\,\% & $\sim$27 m & Adenovirus oncolytique ; BLA attendue fin 2026\\
+Adstiladrin & Ferring & 51\,\% & 9,7 m & Th\'erapie g\'enique IFN-$\alpha$2b ; capacit\'e limit\'ee\\
+Keytruda & Merck & 41\,\% & 16,2 m & Syst\'emique ; toxicit\'es immunitaires\\
+Detalimog\`ene & enGene & n.d. & n.d. & Non viral ; d\'epôt BLA vis\'e 2026\\
+\end{ztable}
+\end{table}
+
+\begin{riskbox}[Lecture concurrentielle]
+J\&J dispose d'un produit plus efficace sur la RC et d'une force de vente sans commune mesure ; CG Oncology arrive avec 76\,\% de RC et un profil de tol\'erance favorable. La part de march\'e d'ANKTIVA en BCG-r\'efractaire CIS devrait plafonner autour de 25--35\,\%, d'o\`u un pic de \$650\,M dans notre cas central pour ce segment.
+\end{riskbox}
+
+% ================================================================ 5. M&A
+\section{Analyse M\&A}
+\fig{fig12_ma_precedents}{\textbf{Pr\'ec\'edents M\&A en oncologie (stade commercial ou pivot) vs IBRX.} Valeurs de transaction et primes sur cours non affect\'e : Pfizer/Seagen 43\,Md\$ (33\,\%, Padcev en ur\'oth\'elial), J\&J/Intra-Cellular 14,6\,Md\$ (SNC, r\'ef\'erence de taille), AbbVie/ImmunoGen 10,1\,Md\$ (95\,\%), Sanofi/Blueprint 9,5\,Md\$ (27\,\%), Genmab/Merus 8,0\,Md\$ (41\,\%), BMS/Mirati 4,8\,Md\$ (52\,\%), Merck KGaA/SpringWorks 3,9\,Md\$ (26\,\%), J\&J/Ambrx 2,0\,Md\$ (105\,\%). Avec 13\,Md\$ de capitalisation dilu\'ee, un rachat d'IBRX \`a +30\,\% (\$\mScF/action, $\sim$17\,Md\$) se situerait dans le haut de la distribution, juste derri\`ere Seagen, pour un actif dont les ventes annuelles sont $\sim$10x inf\'erieures.}
+
+\fig{fig13_premium}{\textbf{Analyse de prime.} Gauche : prix d'acquisition implicite selon la prime de contr\^ole, appliqu\'ee au cours (\$\mPrice), \`a la rNPV de base (\$\mVPSBase) et \`a la rNPV bull (\$\mScD) ; la bande dor\'ee couvre la prime m\'ediane des deals (26--52\,\%). Un acqu\'ereur valorisant ANKTIVA sur notre cas bull paierait au mieux $\sim$\$10--11, soit environ le cours actuel. Droite : valeur par action dilu\'ee selon un multiple de 3x/5x/7x le pic de ventes non ajust\'e ; il faut $\geq$\$2,5\,Md de pic \`a 5x pour justifier le cours.}
+
+\begin{table}[H]\centering\small
+\caption{Acqu\'ereurs potentiels}
+\begin{ztable}{l X c}
+\navyrow \thead{Acqu\'ereur} & \thead{Rationnel} & \thead{Probabilit\'e}\\
+Merck \& Co & Falaise Keytruda 2028 ; d\'ej\`a fournisseur unique du BCG TICE ; combinaison IL-15 + anti-PD-1 & Moyenne\\
+AstraZeneca & Franchise ur\'ologique (Imfinzi NIAGARA/POTOMAC) ; volont\'e d'entrer en intrav\'esical & Moyenne\\
+Pfizer & Padcev/Seagen en ur\'oth\'elial avanc\'e ; manque d'actif NMIBC & Faible--moyenne\\
+Ferring & Leader historique ur\'ologie, Adstiladrin sous-dimensionn\'e & Faible (taille)\\
+Johnson \& Johnson & D\'ej\`a positionn\'e (Inlexzo) --- risque antitrust & Faible\\
+\end{ztable}
+\end{table}
+
+\begin{graybox}[Similarit\'e deal par deal (3 plus proches)]
+\textbf{1. Pfizer/Seagen (2023)} --- similarit\'e \'elev\'ee sur la franchise vessie et la croissance ; mais Seagen r\'ealisait $\sim$2,2\,Md\$ de ventes (VE/ventes $\sim$20x) contre \mEVsales x pour IBRX.\\
+\textbf{2. Sanofi/Blueprint (2025)} --- produit unique en lancement (Ayvakit) avec extension vers une population plus large : profil comparable \`a ANKTIVA $\rightarrow$ BCG-na\"if. Prime de 27\,\%, VE/ventes $\sim$15x.\\
+\textbf{3. Merck KGaA/SpringWorks (2025)} --- biotech commerciale r\'ecente, deux produits en lancement, 3,9\,Md\$ (26\,\%). Encadre ce que le march\'e paie pour un actif d\'erisqu\'e de niche.\\
+\emph{Conclusion} : les multiples r\'ecents (15--20x ventes) appliqu\'es aux ventes 2027E (\$\mRevB\,M) donnent 5--7\,Md\$ de VE, soit la moiti\'e de la valeur actuelle.
+\end{graybox}
+
+\begin{riskbox}[Frein structurel au M\&A]
+Le Dr Patrick Soon-Shiong et ses entit\'es affili\'ees contr\^olent la majorit\'e du capital et sont cr\'eanciers via la note convertible. Aucune op\'eration n'est possible sans leur accord ; l'historique (NantKwest, NantHealth) sugg\`ere une pr\'ef\'erence pour l'ind\'ependance. Nous limitons la probabilit\'e de rachat \`a \mScPF\,\% sur 24 mois.
+\end{riskbox}
+
+% ================================================================ 6. FINANCIALS
+\section{Financials}
+\fig{fig03_revenue_quarterly}{\textbf{Ventes nettes produit trimestrielles.} Barres pleines : publi\'ees (8-K/10-Q ; T1-25 et T4-24 d\'eduits des cumuls semestriels/annuels). Barres hachur\'ees : estimations du mod\`ele pour T3/T4-2026 (\$56,5\,M et \$63,5\,M, +11--12\,\% s\'equentiel, incluant un d\'ebut de contribution du label papillaire en d\'ecembre). Courbe verte : run-rate annualis\'e, $\sim$\$250\,M en fin d'ann\'ee. La d\'ec\'el\'eration de la croissance s\'equentielle (+60\,\% $\rightarrow$ +15\,\%) est normale pour un lancement de 2 ans mais m\'erite d'\^etre suivie face \`a l'arriv\'ee d'Inlexzo.}
+
+\begin{table}[H]\centering\small
+\caption{Compte de r\'esultat r\'esum\'e (\$M ; 2024--2025 publi\'es, 2026--2027 estim\'es)}
+\begin{ztable}{X r r r r r}
+\navyrow \thead{\$M} & \thead{2024A} & \thead{2025A} & \thead{S1-26A} & \thead{2026E} & \thead{2027E}\\
+Ventes nettes produit & 14,7 & 113,0 & 94,8 & \mRevA & \mRevB\\
+Croissance a/a & n.s. & +669\,\% & +121\,\% & +90\,\% & +65\,\%\\
+Marge brute (est.) & n.s. & $\sim$85\,\% & $\sim$88\,\% & $\sim$88\,\% & $\sim$90\,\%\\
+Perte op\'erationnelle & ($\sim$380) & ($\sim$290) & (131,5) & ($\sim$250) & ($\sim$140)\\
+Charges financi\`eres / juste valeur & ($\sim$35) & ($\sim$60) & ($\sim$170)$^\ast$ & variable & variable\\
+Perte nette (GAAP) & (414) & ($\sim$351) & n.d. & n.s. & n.s.\\
+Cash consomm\'e (op\'erations) & ($\sim$380) & ($\sim$330) & (141,9) & ($\sim$255) & ($\sim$130)\\
+Actions moyennes (M) & $\sim$690 & $\sim$920 & 1\,055 & 1\,060 & 1\,075\\
+\end{ztable}
+\par\smallskip\footnotesize $^\ast$T2-26 seul : autres charges nettes de \$168,7\,M, essentiellement non mon\'etaires (r\'e\'evaluation de la note convertible et des warrants \`a la juste valeur, la hausse du cours augmentant le passif). Les montants marqu\'es $\sim$ sont des ordres de grandeur issus d'agr\'egateurs (TTM) et doivent \^etre recoup\'es avec le 10-K 2025.
+\end{table}
+
+\fig{fig14_financials}{\textbf{Tr\'esorerie, dette li\'ee et dilution.} Tr\'esorerie publi\'ee (31/12/2025 : \$242,8\,M ; 31/03/2026 : \$380,9\,M ; 30/06/2026 ; points interm\'ediaires 2024--2025 approximatifs) jusqu'au 30/06/2026 (\$\mCashQtwo\,M, apr\`es le financement de \$100\,M de mars dont \$75\,M de RIPA et \$25\,M de conversion de dette Nant), puis projet\'ee (barres hachur\'ees) avec un burn trimestriel d\'ecroissant de $\sim$\$62\,M \`a $\sim$\$25\,M au fil de la mont\'ee des ventes. La tr\'esorerie tomberait \`a $\sim$\$\mCashEndTwentySeven\,M fin 2027 : \textbf{un refinancement est probable avant le \mRunway}, sauf acc\'el\'eration des ventes. Le passif (note Nant + RIPA) d\'epasse \$880\,M ; le nombre d'actions est pass\'e de 826\,M \`a 1\,060\,M en 18 mois.}
+
+\fig{fig15_revenue_ramp}{\textbf{Trajectoire de ventes ajust\'ee du risque par segment.} Courbes d'adoption logistiques $S_i(t)=\dfrac{\text{Pic}_i}{1+e^{-k_i(t-t_{\text{mid},i})}}$ avec $k_i=8/(t_{\text{pic}}-t_{\text{lancement}})$, pond\'er\'ees par $P_i$. Ventes ajust\'ees : \$\mRevB\,M en 2027, \$\mSalesTT\,Md en 2030, \$\mSalesTF\,Md en 2034. Perte d'exclusivit\'e mod\'elis\'ee en 2036 avec \'erosion de 12\,\%/an (biosimilaires intrav\'esicaux lents \`a se d\'evelopper).}
+
+\fig{fig20_capital_dilution}{\textbf{Structure du capital et dilution historique.} Gauche : base dilu\'ee estim\'ee de \mShFD\,M actions = \mShBasic\,M ordinaires + \mShConv\,M sous-jacentes \`a la note Nant (\$480\,M / \$5,427) + $\sim$\mShOther\,M warrants et options dans la monnaie (estimation \`a partir des financements 2024--2025). Droite : nombre d'actions en circulation (fin de p\'eriode, approximations 10-K/10-Q sauf T2-26) ; TCAC de \mShareCAGR\,\%/an depuis 2021.}
+
+% ================================================================ 7. VALUATION
+\section{Valorisation}
+\subsection{M\'ethodologie rNPV}
+Pour chaque segment $i$ (pic de ventes $\text{Pic}_i$, probabilit\'e $P_i$), la contribution actualis\'ee est :
+\[
+\text{rNPV}_i=\sum_{t=2027}^{2040}\frac{P_i\,S_i(t)\,m_i\,(1-\tau_t)}{(1+r)^{t+0{,}5-t_0}}
+\;+\;\frac{P_i\,S_i(2040)\,m_i\,(1-\tau)\,(1-g)}{(r+g)\,(1+r)^{2040{,}5-t_0}},
+\]
+avec $m_i = \text{MB} - \rho - \text{opex} = 0{,}90-0{,}075-0{,}33 = 49{,}5\,\%$ (US) ou $30\,\%$ (ex-US via partenaires), $\rho$ la redevance Oberland, $r=\mWacc\,\%$, $g=10\,\%$ de d\'eclin terminal, $\tau_t$ l'imp\^ot effectif apr\`es utilisation de $\sim$\$3\,Md de d\'eficits reportables, $t_0=2026{,}8$. Puis :
+\[
+\text{VE}=\sum_i \text{rNPV}_i-\text{PV(overhead)},\qquad
+\text{Valeur/action}=\frac{\text{VE}+\text{Tr\'esorerie}}{N_{\text{dilu\'e}}}.
+\]
+La note Nant, profond\'ement dans la monnaie, est trait\'ee comme convertie (actions incluses dans $N_{\text{dilu\'e}}$) ; la redevance Oberland est d\'eduite des marges, le passif RIPA n'est donc pas soustrait une seconde fois.
+
+\begin{table}[H]\centering\small
+\caption{Hypoth\`eses et r\'esultats par segment (cas de base)}
+\begin{ztable}{X c c c c r r}
+\navyrow \thead{Segment} & \thead{Lanc.} & \thead{Pic} & \thead{Pic \$M} & \thead{$P_i$} & \thead{rNPV \$M} & \thead{\$/act.}\\
+NMIBC BCG-r\'efr.\ CIS (US) & 2024 & 2030 & 650 & 100\,\% & \mNpvA & \mVpsA\\
+NMIBC BCG-r\'efr.\ papillaire (US) & 2026 & 2031 & 380 & 100\,\% & \mNpvB & \mVpsB\\
+NMIBC BCG-na\"if (QUILT-2.005) & 2028 & 2034 & 1\,600 & 60\,\% & \mNpvC & \mVpsC\\
+Ex-US NMIBC (UE/UK/KSA/EAU) & 2026 & 2032 & 350 & 85\,\% & \mNpvD & \mVpsD\\
+CPNPC 2L+ (ResQ201A) & 2029 & 2035 & 1\,100 & 20\,\% & \mNpvE & \mVpsE\\
+Lymphop\'enie / pipeline & 2029 & 2035 & 700 & 10\,\% & \mNpvF & \mVpsF\\
+Overhead plateforme (\$70\,M/an 2027--31) & & & & & \mOvhBase & \\
+\textbf{Tr\'esorerie estim\'ee 30/09/2026} & & & & & \mCashEst & \\
+\textbf{Valeur des fonds propres} & & & & & \textbf{\mEqBase} & \textbf{\mVPSBase}\\
+\end{ztable}
+\end{table}
+
+\fig{fig16_waterfall}{\textbf{Somme des parties rNPV (cas de base) vs capitalisation dilu\'ee.} Les deux indications d\'ej\`a approuv\'ees aux \'Etats-Unis (CIS + papillaire) valent \$2,43/action ; l'option BCG-na\"if \$1,40 ; le reste (ex-US, poumon, pipeline) moins de \$0,75. La valeur intrins\`eque (\$\mVPSBase, \mEqBase\,M\$) repr\'esente $\sim$44\,\% de la capitalisation dilu\'ee au cours de \$\mPrice.}
+
+\fig{fig21_reverse_dcf}{\textbf{Ce que le cours anticipe.} Gauche : reverse DCF --- valeur par action en fonction du pic de ventes cumul\'e ajust\'e du risque (toutes \'economies unitaires inchang\'ees). Le cours de \$\mPrice{} correspond \`a $\sim$\$6,1\,Md de pic ajust\'e, soit \mImplMult x notre cas central (\$\mRiskPeak\,Md). Droite : VE/ventes de 102x (2025), \mEVsales x (2026E) et 33x (2027E) --- des multiples r\'eserv\'es d'ordinaire aux plateformes \`a tr\`es forte croissance.}
+
+\subsection{Sc\'enarios probabilis\'es}
+Chaque sc\'enario est calcul\'e par le m\^eme mod\`ele en modifiant les param\`etres (pics, probabilit\'es, WACC, opex, retards) ; le sc\'enario M\&A applique une prime de 30\,\% au cours.
+\[
+\mathbb{E}[V]=\sum_{s}\pi_s V_s = \mScCA+\mScCB+\mScCC+\mScCD+\mScCE+\mScCF = \textbf{\$\mEVW},\qquad
+\frac{\mathbb{E}[V]}{\text{Cours}}-1=\textbf{\mUpside\,\%}.
+\]
+
+\begin{table}[H]\centering\small
+\caption{Sc\'enarios (valeur par action dilu\'ee, fourchette $\pm$20\,\%)}
+\begin{ztable}{l c c c X}
+\navyrow \thead{Sc\'enario} & \thead{Prob.} & \thead{Valeur} & \thead{Contrib.} & \thead{Hypoth\`eses cl\'es}\\
+Catastrophe & \mScPA\,\% & \$\mScA & \$\mScCA & QUILT-2.005 n\'egatif ; pics $\times$0,55--0,6 ; opex 40\,\% ; WACC 12\,\%\\
+Bear & \mScPB\,\% & \$\mScB & \$\mScCB & BCG-na\"if retard\'e d'un an ($P=35\,\%$) ; pics $\times$0,8\\
+Base & \mScPC\,\% & \$\mScC & \$\mScCC & Mod\`ele central (tableau pr\'ec\'edent)\\
+Bull & \mScPD\,\% & \$\mScD & \$\mScCD & BCG-na\"if approuv\'e 2027 ($P=85\,\%$) ; pics $\times$1,2--1,35 ; WACC 9,5\,\%\\
+Blue sky & \mScPE\,\% & \$\mScE & \$\mScCE & Plateforme IL-15 valid\'ee (CPNPC US 60\,\%, lymphop\'enie 35\,\%) ; pics $\times$1,4--1,9\\
+M\&A & \mScPF\,\% & \$\mScF & \$\mScCF & Rachat \`a +30\,\% (accord Soon-Shiong requis)\\
+\textbf{Esp\'erance} & \textbf{100\,\%} & & \textbf{\$\mEVW} & \textbf{\mUpside\,\% vs \$\mPrice}\\
+\end{ztable}
+\end{table}
+
+\fig{fig17_scenarios}{\textbf{Sc\'enarios probabilis\'es.} Gauche : valeur par sc\'enario avec fourchette $\pm$20\,\% et probabilit\'e ; ligne orange = cours, ligne bleue = esp\'erance pond\'er\'ee (\$\mEVW). Droite : distribution Monte-Carlo (50\,000 tirages : choix du sc\'enario selon $\pi_s$, puis bruit lognormal $\sigma=0{,}18$). $P(\text{valeur}>\text{cours})=\mPAbove\,\%$ : seuls les sc\'enarios Blue sky et M\&A d\'epassent le cours actuel.}
+
+\begin{bullbox}[Ce qui ferait de nous des acheteurs]
+(i) Topline QUILT-2.005 avec $\Delta\geq20$ points sur la RC \emph{et} la DFS ; (ii) ventes trimestrielles $>$\$80\,M d\`es le T2-2027 (preuve que le papillaire et l'ex-US s'additionnent) ; (iii) r\'esolution durable de l'approvisionnement rBCG ; (iv) un repli du cours vers \$6--7 sans d\'egradation fondamentale.
+\end{bullbox}
+
+% ================================================================ 8. RISQUES
+\section{Risques}
+\fig{fig18_risk_matrix}{\textbf{Matrice des risques (horizon 24 mois).} Axe x : probabilit\'e de mat\'erialisation ; axe y : impact sur la valeur (1 = n\'egligeable, 5 = destruction de la th\`ese) ; taille des bulles $\propto$ probabilit\'e $\times$ impact. Couleurs : rouge = clinique/concurrentiel, violet = financier/gouvernance, orange = op\'erationnel/r\'eglementaire, gris = march\'e. Les risques les plus lourds sont la concurrence d'Inlexzo/cr\'etostimog\`ene (2), la dilution (1) et l'issue de QUILT-2.005 (3).}
+
+\begin{riskbox}[Bear case d\'etaill\'e]
+\begin{enumerate}[leftmargin=14pt]
+\item \textbf{Valorisation} : \mEVsales x les ventes 2026E ; le cours int\`egre \mImplMult x notre pic ajust\'e. Une simple normalisation \`a 15--20x les ventes 2027E impliquerait \$4--6.
+\item \textbf{Concurrence} : Inlexzo (RC 82\,\%, J\&J) et cr\'etostimog\`ene (76\,\%, BLA fin 2026) visent les m\^emes urologues ; la croissance s\'equentielle d'ANKTIVA est d\'ej\`a pass\'ee de +60\,\% \`a +15\,\%.
+\item \textbf{QUILT-2.005} : int\'erim sur $\sim$40 patients, $p$ \`a la limite (0,046--0,054) ; PPoS $\approx\mPPoSShr\,\%$. Un \'echec retirerait $\sim$\$1,4/action de valeur et probablement 40--50\,\% du cours.
+\item \textbf{Dilution} : 826\,M $\rightarrow$ 1\,060\,M actions en 18 mois ; tr\'esorerie projet\'ee \`a $\sim$\$\mCashEndTwentySeven\,M fin 2027 ; nouvelle lev\'ee ou tirage RIPA probable avant le \mRunway.
+\item \textbf{Structure financi\`ere} : note Nant de \$480\,M (refinancement incertain, conditions \`a la discr\'etion de l'actionnaire de contr\^ole) et redevance de 5,6--12,5\,\% des ventes jusqu'au cap Oberland.
+\item \textbf{Gouvernance} : contr\^ole majoritaire de P.~Soon-Shiong, transactions avec parties li\'ees (Nant, PDS Biotechnology), communication promotionnelle ; minoritaires sans levier.
+\item \textbf{Approvisionnement BCG} : TICE (Merck) fournisseur unique US, rationn\'e depuis 2019 ; le rBCG Serum Institute n'est disponible qu'en acc\`es \'elargi --- contrainte directe sur le segment BCG-na\"if.
+\item \textbf{FDA et volatilit\'e} : historique de CRL (2023) et de RTF (2025) ; titre tr\`es d\'etenu par le retail (19,7\,M de titres \'echang\'es le 14/10), drawdowns de 40\,\% fr\'equents (f\'evrier--mars 2026).
+\end{enumerate}
+\end{riskbox}
+
+% ================================================================ 9. CATALYSEURS
+\section{Catalyseurs}
+\fig{fig19_timeline}{\textbf{Calendrier des catalyseurs 2026--2028.} En rouge, les \'ev\'enements binaires majeurs : topline final de QUILT-2.005 et d\'ep\^ot de la sBLA BCG-na\"if (guidance 2026), puis la d\'ecision PDUFA estim\'ee fin 2027 (revue standard de 10 mois apr\`es acceptation). Le PDUFA papillaire du 6/1/2027 est devenu sans objet apr\`es l'approbation anticip\'ee du 14/10/2026. Dates post\'erieures \`a 2026 = estimations.}
+
+\begin{table}[H]\centering\small
+\caption{Calendrier des catalyseurs et impact attendu}
+\begin{ztable}{l X c c}
+\navyrow \thead{Date} & \thead{\'Ev\'enement} & \thead{Impact} & \thead{Binaire}\\
+14/10/2026 & FDA : label papillaire seul (acquis) & + (int\'egr\'e) & Non\\
+D\'eb.\ nov.\ 2026 & R\'esultats T3-2026 (consensus implicite $\sim$\$55--58\,M) & $\pm$10\,\% & Non\\
+T4-2026 & Topline final QUILT-2.005 (RC + DFS, BCG-na\"if) & $\pm$35--50\,\% & \textbf{Oui}\\
+Fin 2026 & D\'ep\^ot sBLA BCG-na\"if & + & Partiel\\
+F\'ev.\ 2027 & FY2026 + guidance 2027 ; trajectoire de burn & $\pm$10\,\% & Non\\
+T1-2027 & Acceptation sBLA (priorit\'e ou standard) & $\pm$10\,\% & Partiel\\
+2027 & Lancements UE pays par pays ; prix et remboursement & + & Non\\
+2027 & BLA rBCG / extension de l'acc\`es \'elargi & + & Partiel\\
+Fin 2027 (est.) & PDUFA BCG-na\"if & $\pm$25--40\,\% & \textbf{Oui}\\
+2028 & Interim ResQ201A (CPNPC) & $\pm$15\,\% & \textbf{Oui}\\
+Continu & Financement / refinancement note Nant & $-$5 \`a $-$15\,\% & Non\\
+\end{ztable}
+\end{table}
+
+\begin{keybox}[Insiders \& analystes]
+\textbf{Analystes} : 6--7 couvertures, consensus \og Buy\fg{} ; objectif moyen \$12,6 (StockAnalysis, fourchette \$7--23) \`a \$14,2 (MarketBeat) ; HC Wainwright \$15 (juin 2026), BTIG \$12 (mai 2026), D.~Boral \$23. Weiss Ratings : Sell. Les objectifs impliquent +22 \`a +38\,\% mais reposent sur des pics de ventes multi-milliards non ajust\'es du risque.\\
+\textbf{Insiders} : pas d'achat significatif identifi\'e en 2026 ; vente de 25\,000 titres par l'administratrice C.~Selecky (23/02/2026). L'actionnaire de contr\^ole a converti \$25\,M de dette en 4,6\,M d'actions en mars 2026 (\$5,43), un signal de confiance mais \`a un prix tr\`es inf\'erieur au cours.
+\end{keybox}
+
+% ================================================================ 10. CONCLUSION
+\section{Conclusion}
+ImmunityBio n'est plus une histoire de R\&D : ANKTIVA est un produit commercial en croissance, dont le label vient d'\^etre \'elargi par la FDA sans essai suppl\'ementaire, avec un essai randomis\'e pivot d\'ej\`a recrut\'e dans le plus grand segment du NMIBC. Mais le march\'e a anticip\'e ce succ\`es : \`a \$\mPrice, l'action valorise l'entreprise \`a \$\mEntVal\,Md de VE, soit \mEVsales x les ventes 2026E et $\sim$2,3x notre valeur intrins\`eque de base. M\^eme notre sc\'enario bull (\$\mScD) reste sous le cours ; seuls une validation de la plateforme IL-15 au-del\`a de la vessie ou un rachat \`a prime justifient les niveaux actuels.
+
+\begin{keybox}[Verdict final]
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{l r}
+\textbf{Cours (14/10/2026)} & \$\mPrice\\
+\textbf{rNPV cas de base} & \$\mVPSBase\\
+\textbf{Valeur pond\'er\'ee des sc\'enarios} & \textbf{\$\mEVW}\\
+\textbf{Potentiel} & \textbf{\mUpside\,\%}\\
+$P(\text{valeur} > \text{cours})$ (Monte-Carlo) & \mPAbove\,\%\\
+\textbf{Recommandation} & \textbf{NEUTRE / SOUS-POND\'ERER}\\
+\end{tabular}
+\end{center}
+\textbf{Position sizing} : 0\,\% en c\oe ur de portefeuille. Exposition sp\'eculative plafonn\'ee \`a 0,5--1\,\% du portefeuille pour les investisseurs souhaitant jouer QUILT-2.005, id\'ealement via des structures \`a risque d\'efini (call spreads) plut\^ot qu'en actions. Pour les d\'etenteurs : prise de b\'en\'efices partielle ou couverture (puts) avant le topline. Niveau d'achat r\'e\'evalu\'e : $\leq$\$6 (proche de la valeur bull actualis\'ee avec marge de s\'ecurit\'e) ou apr\`es un succ\`es franc de QUILT-2.005.
+\end{keybox}
+
+% ================================================================ SOURCES
+\section*{Sources}
+\addcontentsline{toc}{section}{Sources}
+\footnotesize
+\begin{enumerate}[leftmargin=14pt,itemsep=0pt]
+\item ImmunityBio, 10-Q T2-2026 (SEC, 0001326110-26-000079) et 10-Q T1-2026 ; 10-K FY2025.
+\item ImmunityBio, 8-K / communiqu\'e \og Record Q2 2026 Net Product Revenue of \$50.7 Million\fg{}, 04/08/2026 (BusinessWire).
+\item ImmunityBio, \og Net Product Revenue \ldots{} Record \$44 Million in Q1 2026 and \$381 Million in Cash\fg{}, 09/04/2026.
+\item ImmunityBio, \og \$113 Million of Preliminary Net Product Revenue\fg{}, 15/01/2026 ; r\'esultats FY2025, 23/02/2026.
+\item ImmunityBio, \og Strengthens Balance Sheet with \$100 Million of Financing Transactions\fg{}, 31/03/2026.
+\item ImmunityBio, acceptation de la sBLA papillaire (PDUFA 06/01/2027), 19/05/2026 ; resoumission, 09/03/2026.
+\item FiercePharma, \og FDA clears ImmunityBio's Anktiva expansion in bladder cancer after regulatory whiplash\fg{}, 14/10/2026 ; Benzinga, 14/10/2026.
+\item ImmunityBio, \og Confirms Statistical Power in Pivotal Randomized BCG-Na\"ive NMIBC Trial\fg{}, 26/03/2026 ; \emph{Urology Times}.
+\item Commission europ\'eenne (autorisation conditionnelle, f\'evr.\ 2026) ; SFDA (CPNPC + NMIBC, janv.\ 2026) ; EMA EPAR Anktiva.
+\item Guggenheim Securities, \og Biopharma : The NMIBC Revolution\fg{}.
+\item StockAnalysis, MarketBeat/Defense World (16/09/2026), Tickernerd (23/09/2026) : objectifs d'analystes.
+\item Pitchbook / Simply Wall St (CGON, 07/10/2026) ; StockAnalysis (ENGN, 02/10/2026) ; Walnut/Yahoo (URGN, ao\^ut 2026).
+\item Communiqu\'es des acqu\'ereurs : Pfizer/Seagen, AbbVie/ImmunoGen, BMS/Mirati, J\&J/Ambrx, Sanofi/Blueprint, Merck KGaA/SpringWorks, Genmab/Merus, J\&J/Intra-Cellular.
+\item Publications pivotales : QUILT-3.032 (Chamie et al., \emph{NEJM Evidence} ; \emph{J.\ Urol.}), SunRISe-1, BOND-003, KEYNOTE-057, essai de phase 3 nadof\'arag\`ene.
+\end{enumerate}
+\normalsize
+\end{document}
