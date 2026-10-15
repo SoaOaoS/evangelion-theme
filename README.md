@@ -34,7 +34,7 @@ considéré par Omarchy comme le tien, donc il conserve :
 - `hyprland.lua` : bordures en dégradé **+ halo A.T. Field** autour de la fenêtre active ;
 - `neovim.lua` : le colorscheme Evangelion fourni avec ce dépôt.
 
-`--extras` installe en plus fastfetch et starship (tes anciennes configs sont sauvegardées en
+`--extras` installe en plus fastfetch, le prompt starship HUD (tes anciennes configs sont sauvegardées en
 `*.pre-evangelion`).
 
 ### Rapide : le thème Unit-01 seul
@@ -125,10 +125,39 @@ Pour lualine : `theme = "evangelion"`.
 - `extras/fastfetch/` : rapport « MAGI SYSTEM » en trois sections (PILOT, ENTRY PLUG,
   S² ENGINE), icônes Nerd Font, clés alignées, et **le portrait de l'Eva du thème actif** en
   vraie image. Voir ci-dessous.
-- `extras/starship/starship.toml` : prompt « entry plug », `SYNC ❯` en vert, `PATTERN BLUE ❯`
-  en rouge en cas d'erreur.
+- `extras/starship/` : un prompt HUD complet, voir ci-dessous.
 
 Les deux utilisent les couleurs ANSI du terminal et suivent donc la variante active.
+
+#### Prompt starship (HUD)
+
+![prompt](docs/prompt-evangelion.png)
+
+Trois lignes :
+
+1. **Où tu es** : OS, utilisateur/hôte en SSH, conteneur, dossier (racine du repo soulignée),
+   git (branche, commit/tag, rebase/merge en cours, fichiers modifiés/stagés/non suivis,
+   ahead/behind, lignes +/-), langages et environnements (Python + venv, Node, Bun, Deno,
+   Rust, Go, Java, Kotlin, PHP, Ruby, Lua, Zig, .NET, Nix, direnv). À droite : code de sortie
+   de la dernière commande, durée si > 2 s, RAM si > 80 %, batterie si < 35 %, heure.
+2. **Ce qui se passe** (n'apparaît que si quelque chose est actif) : morceau en cours
+   (Spotify, ou tout lecteur MPRIS : navigateur, mpv, VLC…, avec ▶/⏸), contexte et namespace
+   **Kubernetes** (en rouge avec ⚠ si le contexte contient `prod`, alias `eks:`/`gke:` pour
+   les ARN et noms GKE), Helm, profil et région **AWS** (+ expiration des credentials),
+   projet **GCP**, abonnement **Azure**, contexte **Docker**, workspace **Terraform**, stack
+   **Pulumi**.
+3. **Le prompt** : `SYNC ❯` en vert, `PATTERN BLUE ❯` en rouge après une erreur,
+   `MAGI ❮` en mode vi, icône si `sudo` est actif, nombre de jobs en arrière-plan.
+
+Le morceau en cours passe par `evangelion-now-playing` (installé dans `~/.local/bin`), qui
+demande `playerctl` :
+
+```bash
+sudo pacman -S playerctl
+```
+
+Tout le prompt utilise les couleurs ANSI du terminal, il suit donc la variante active. Il
+tient sur bash (le shell d'Omarchy), zsh et fish, et se calcule en quelques dizaines de millisecondes.
 
 #### fastfetch
 

@@ -66,6 +66,11 @@ if ((EXTRAS)); then
   done
   cp "$SRC/extras/fastfetch/evangelion.template.jsonc" "$config/fastfetch/"
   cp "$SRC/extras/starship/starship.toml" "$config/starship.toml"
+  mkdir -p "$HOME/.local/bin"
+  cp "$SRC/extras/starship/evangelion-now-playing" "$HOME/.local/bin/"
+  chmod +x "$HOME/.local/bin/evangelion-now-playing"
+  command -v playerctl >/dev/null ||
+    echo "  ! install playerctl for the now-playing segment: sudo pacman -S playerctl"
 
   # The portrait follows every theme switch through Omarchy's theme-set hook.
   hooks="$config/omarchy/hooks/theme-set.d"
@@ -73,7 +78,7 @@ if ((EXTRAS)); then
   cp "$SRC/extras/fastfetch/evangelion-fastfetch" "$hooks/evangelion-fastfetch"
   chmod +x "$hooks/evangelion-fastfetch"
   bash "$hooks/evangelion-fastfetch" "${SET_THEME:-}"
-  echo "  ✓ fastfetch + starship"
+  echo "  ✓ fastfetch + starship HUD"
 fi
 
 if [[ -n $SET_THEME ]]; then

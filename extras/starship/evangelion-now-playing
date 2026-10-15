@@ -1,0 +1,25 @@
+#!/bin/bash
+# Print the track playing in Spotify (or any MPRIS player) for the starship prompt.
+# Prints nothing when no player is running, so the prompt segment disappears.
+
+command -v playerctl >/dev/null || exit 0
+
+max=${EVANGELION_MUSIC_WIDTH:-38}
+line=$(playerctl -p spotify,%any metadata --format '{{playerName}}|{{status}}|{{artist}}|{{title}}' 2>/dev/null | head -n1)
+[[ -n $line ]] || exit 0
+
+IFS='|' read -r player status artist title <<<"$line"
+[[ -n $title ]] || exit 0
+
+case "$player" in
+  spotify*) icon="" ;;
+  firefox* | chromium* | brave*) icon="󰗃" ;;
+  *) icon="󰝚" ;;
+esac
+[[ $status == Playing ]] && state="󰐊" || state="󰏤"
+
+track="$title"
+[[ -n $artist ]] && track="$artist — $title"
+((${#track} > max)) && track="${track:0:max-1}…"
+
+printf '%s %s %s' "$icon" "$state" "$track"
